@@ -1,5 +1,13 @@
 #!/bin/sh
 
+state="$(pactl list sources | grep '^[[:space:]]Mute:' | awk '{ print $2 }' | grep yes)"
+
+if [ "$state" = "yes" ]; then
+	mic="   "
+else
+	mic="   "
+fi
+
 vol="$(pulsemixer --get-volume | awk '{print $1}')"
 
 if [ "$vol" -ge "70" ]; then
@@ -12,4 +20,4 @@ fi
 
 [ $(pulsemixer --get-mute) = 1 ] && icon="ﱝ  "
 
-echo "$icon$vol%"
+echo " $mic$icon$vol%"
